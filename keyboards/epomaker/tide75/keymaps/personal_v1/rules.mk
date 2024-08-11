@@ -1,6 +1,8 @@
 ENCODER_MAP_ENABLE = no
 VIA_ENABLE = yes
 ENCODER_ENABLE = yes
+#LTO_ENABLE = yes
+
 
 #RGBLIGHT_ENABLE = yes
 
@@ -8,8 +10,8 @@ ENCODER_ENABLE = yes
 #   comment out to disable the options.
 #
 BOOTMAGIC_ENABLE = yes       # Virtual DIP switch configuration(+1000)
-MOUSEKEY_ENABLE = no        # Mouse keys(+4700)
-EXTRAKEY_ENABLE = no # yes       # Audio control and System control(+450)
+MOUSEKEY_ENABLE = yes        # Mouse keys(+4700)
+EXTRAKEY_ENABLE = yes # yes       # Audio control and System control(+450)
 CONSOLE_ENABLE = no         # Console for debug(+400)
 COMMAND_ENABLE = no         # Commands for debug and configuration
 NKRO_ENABLE =  yes           # USB Nkey Rollover
