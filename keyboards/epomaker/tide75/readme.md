@@ -1,6 +1,6 @@
 # EPOMAKER TIDE 75
 
-* Keyboard Maintainer: [sdk66](https://github.com/sdk66)
+* Keyboard Maintainer: EPOMAKER(https://github.com/Epomaker)
 * Hardware Supported: EPOMAKER TIDE 75
 * Hardware Availability: [epomaker](https://www.epomaker.com)
 
