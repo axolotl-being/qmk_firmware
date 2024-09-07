@@ -27,6 +27,8 @@ enum custom_keycodes {
   IM_BATQ,
   SOMETHING,
   RL_MOD
+ ,ALT_TAB
+ ,ALT_SHIFT_TAB
 };
 
 
@@ -71,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_INS,  KC_MS_BTN1,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   
-        _______,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    KC_F7,    KC_F8,    KC_F9,   KC_F10,   KC_F11,   KC_F12,   _______,  _______,  
+KC_PRINT_SCREEN,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    KC_F7,    KC_F8,    KC_F9,   KC_F10,   KC_F11,   KC_F12,   _______,  _______,  
         _______,  _______,     KC_4,     KC_5,     KC_6,  KC_MINS,   KC_EQL,    KC_F4,    KC_F5,    KC_F6,  _______,  _______,  _______,              _______, 
         _______,     KC_1,     KC_2,     KC_3,  _______,  _______,  _______,    KC_F1,    KC_F2,    KC_F3,  _______,  _______,            KC_MS_U,  KC_MS_BTN2,
         _______,  _______,  _______,     KC_0,             _______,  _______,   _______,             _______,  _______,  _______,  KC_MS_L,  KC_MS_D,  KC_MS_R
@@ -103,7 +105,7 @@ void matrix_scan_user(void) { // The very important timer.
     }
   }
 };
-bool encoder_update_user(uint8_t index, bool clockwise) {
+/* bool encoder_update_user(uint8_t index, bool clockwise) {
     if (get_highest_layer(layer_state|default_layer_state) == _COLEMAK) {
         if (clockwise) {
 			if (!is_alt_tab_active) {
@@ -140,7 +142,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		tap_code16(S(KC_TAB));
 		}
         
-    }
+    } */
 	
 /* 	else if (get_highest_layer(layer_state|default_layer_state) == _ADJUST) {  
         
@@ -151,7 +153,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		}
         
     } */
-	
+	/*
 	else if (get_highest_layer(layer_state|default_layer_state) == _LOWER) { 
         
 		if (clockwise) {
@@ -171,14 +173,14 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		}
     }
     return false;
-};
+};*/
 
-/* const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-	[_COLEMAK] = {ENCODER_CCW_CW(_______, _______)},
-	[_QWERTY] = {ENCODER_CCW_CW(_______, _______)},
-    [_LOWER] = {ENCODER_CCW_CW(_______, _______)},
-    [_RAISE] = {ENCODER_CCW_CW(_______), _______)}
-}; */
+ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+	[_COLEMAK] = {ENCODER_CCW_CW(ALT_SHIFT_TAB, ALT_TAB)},
+	[_QWERTY] = {ENCODER_CCW_CW(ALT_SHIFT_TAB, ALT_TAB)},
+    [_LOWER] = {ENCODER_CCW_CW(KC_DOWN, KC_UP)},
+    [_RAISE] = {ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB))}
+}; 
 #endif
 
 // clang-format on
@@ -217,6 +219,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           tap_code16(C(KC_V)); // Intercept hold function to send Ctrl-V
       }
       return false;
+    case ALT_TAB:
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
+case ALT_SHIFT_TAB:
+      if (record->event.pressed) {
+        if (!is_alt_shift_tab_active) {
+          is_alt_shift_tab_active = true;
+          register_code(KC_LALT);
+          register_code(KC_LSFT);
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+        unregister_code(KC_LSFT);
+      }
+      break;
   }
   return true;
 }
