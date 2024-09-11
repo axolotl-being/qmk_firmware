@@ -6,3 +6,5 @@
 #define TAPPING_TOGGLE 3
 #define DYNAMIC_KEYMAP_LAYER_COUNT 4 //max amount for this keyboard
 #define ENCODER_RESOLUTION 2
+
+#define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_TWINKLE

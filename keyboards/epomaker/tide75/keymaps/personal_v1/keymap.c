@@ -122,6 +122,22 @@ KC_PRINT_SCREEN,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    
     )
 };
 
+/*// Light LEDs 9 & 10 in cyan when keyboard layer 1 is active
+const rgblight_segment_t PROGMEM _QWERTY[] = RGBLIGHT_LAYER_SEGMENTS(
+    {9, 2, HSV_CYAN}
+// Now define the array of layers. Later layers take precedence
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_capslock_layer,
+    my_layer1_layer,    // Overrides caps lock layer
+    my_layer2_layer,    // Overrides other layers
+    my_layer3_layer     // Overrides other layers
+);
+
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    rgblight_layers = my_rgb_layers;
+}*/
+
 //#ifdef ENCODER_MAP_ENABLE
 #ifdef ENCODER_ENABLE
 bool is_alt_tab_active = false; // ADD this near the begining of keymap.c
@@ -220,12 +236,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
+        rgblight_mode_noeeprom(2);
         set_single_persistent_default_layer(_QWERTY);
       }
       return false;
       break;
     case COLEMAK:
       if (record->event.pressed) {
+        rgblight_reload_from_eeprom();
         set_single_persistent_default_layer(_COLEMAK);
       }
       return false;
@@ -259,20 +277,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_TAB);
       }
       break;
-/*case ALT_SHIFT_TAB:
+case ALT_SHIFT_TAB:
       if (record->event.pressed) {
         if (!is_alt_shift_tab_active) {
           is_alt_shift_tab_active = true;
           register_code(KC_LALT);
-          register_code(KC_LSFT);
+          
         }
         alt_tab_timer = timer_read();
+        register_code(KC_LSFT);
         register_code(KC_TAB);
       } else {
         unregister_code(KC_TAB);
         unregister_code(KC_LSFT);
       }
-      break; */
+      break; 
   }
   return true;
 }
