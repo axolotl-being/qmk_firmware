@@ -115,8 +115,8 @@ KC_PRINT_SCREEN,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    
 	[_RAISE] = LAYOUT( 
         EE_CLR,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_INS,  KC_MS_BTN1,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   
-        _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  KC_UP,  _______,  _______,  _______,  _______,   _______,  _______,  
-   KC_CAPS_LOCK,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_LEFT,  KC_RGHT,  _______,  _______,            _______,  _______, 
+        _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_UP,  _______,  _______,   _______,  _______,  
+   KC_CAPS_LOCK,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_LEFT,  KC_RGHT,  _______,            _______,  _______, 
     KC_NUM_LOCK,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_DOWN,  _______,  _______,            _______,  _______,
         _______,  _______,  _______,  _______,             _______,  _______,   _______,             _______,  _______,  _______,  _______,  _______,  _______
     )
@@ -142,8 +142,8 @@ void matrix_scan_user(void) { // The very important timer.
 
 
  const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-	[_COLEMAK] = {ENCODER_CCW_CW(ALT_SHIFT_TAB, ALT_TAB)},
-	[_QWERTY] = {ENCODER_CCW_CW(ALT_SHIFT_TAB, ALT_TAB)},
+	[_COLEMAK] = {ENCODER_CCW_CW(S(ALT_TAB), ALT_TAB)},
+	[_QWERTY] = {ENCODER_CCW_CW(S(ALT_TAB), ALT_TAB)},
     [_LOWER] = {ENCODER_CCW_CW(KC_DOWN, KC_UP)},
     [_RAISE] = {ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB))}
 }; 
@@ -259,7 +259,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_TAB);
       }
       break;
-case ALT_SHIFT_TAB:
+/*case ALT_SHIFT_TAB:
       if (record->event.pressed) {
         if (!is_alt_shift_tab_active) {
           is_alt_shift_tab_active = true;
@@ -272,7 +272,7 @@ case ALT_SHIFT_TAB:
         unregister_code(KC_TAB);
         unregister_code(KC_LSFT);
       }
-      break;
+      break; */
   }
   return true;
 }
