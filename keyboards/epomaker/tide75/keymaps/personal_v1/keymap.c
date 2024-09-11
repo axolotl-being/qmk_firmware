@@ -17,12 +17,12 @@ enum keycodes {
 
 
 enum custom_keycodes{
-  ALT_TAB,
+  ALT_TAB = SAFE_RANGE,
   ALT_SHIFT_TAB
 };
 
 enum td_keycodes{
-  RAISE_SHIFT
+  RAISE_SHIFT = SAFE_RANGE
 };
 
 
