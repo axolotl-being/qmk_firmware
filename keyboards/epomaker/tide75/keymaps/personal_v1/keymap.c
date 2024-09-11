@@ -141,8 +141,8 @@ td_state_t cur_dance(tap_dance_state_t *state) {
     }
 
     if (state->count == 2) {
-      if (state->interrupted || !state->pressed) return TD_DOUBLE_TAP;
-      else return TD_DOUBLE_HOLD;
+      if (state->pressed) return TD_DOUBLE_HOLD;
+      else return TD_DOUBLE_TAP;
     }
     else return TD_UNKNOWN; // Any number higher than the maximum state value you return above
 
@@ -160,9 +160,9 @@ void altlp_finished(tap_dance_state_t *state, void *user_data) {
             layer_on(_RAISE); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP: // 
-            add_oneshot_mods(MOD_BIT(KC_RSFT));
+            set_oneshot_mods(MOD_BIT(KC_RSFT));
             break;
-        case TD_DOUBLE_HOLD: // 
+        case TD_DOUBLE_HOLD: //
             register_mods(MOD_BIT(KC_RSFT));
             break;
         default:
@@ -179,7 +179,7 @@ void altlp_reset(tap_dance_state_t *state, void *user_data) {
             layer_off(_RAISE); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP:
-            clear_oneshot_mods();
+            
             break;
         case TD_DOUBLE_HOLD:
             unregister_mods(MOD_BIT(KC_RSFT));
