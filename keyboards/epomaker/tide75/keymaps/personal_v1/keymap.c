@@ -8,7 +8,6 @@ enum layers {
   _QWERTY,
   _LOWER,
   _RAISE
-  //_ADJUST
 };
 
 enum keycodes {
@@ -59,11 +58,8 @@ td_state_t cur_dance(tap_dance_state_t *state);
 void altlp_finished(tap_dance_state_t *state, void *user_data);
 void altlp_reset(tap_dance_state_t *state, void *user_data);
 
-/*tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
-    [RAISE_SHIFT] = ACTION_TAP_DANCE_LAYER_MOVE(KC_RSFT, _RAISE),
-};*/
 
+// keymap section --------------------------------------------------------------------------------------------------------------------------------
 
 #define LOWER TT(_LOWER)
 #define RAISE TT(_RAISE)
@@ -93,16 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_PGDN,
         COPA,  KC_LGUI,  KC_LALT,  KC_SPC,             KC_RALT,  KC_SPC,   KC_SPC,             LOWER,    RAISE,    KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
     ),
-	
 
-/*     [_ADJUST] = LAYOUT( 
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   
-        _______,  COLEMAK,  QWERTY,   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,  _______, 
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,  _______,
-        _______,  _______,  _______,  EE_CLR,             _______,  EE_CLR,   EE_CLR,             _______,  _______,  _______,  _______,  _______,  _______
-    ), */
 	[_LOWER] = LAYOUT( 
 
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_INS,  KC_MS_BTN1,
@@ -112,6 +99,7 @@ KC_PRINT_SCREEN,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    
         _______,     KC_1,     KC_2,     KC_3,  _______,  _______,  _______,    KC_F1,    KC_F2,    KC_F3,  _______,  _______,            KC_MS_U,  KC_MS_BTN2,
         _______,  _______,  _______,     KC_0,             KC_0,  KC_0,   KC_0,             _______,  _______,  S(KC_INS),  KC_MS_L,  KC_MS_D,  KC_MS_R
     ),
+  
 	[_RAISE] = LAYOUT( 
         EE_CLR,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_INS,  KC_MS_BTN1,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   
@@ -122,24 +110,10 @@ KC_PRINT_SCREEN,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    
     )
 };
 
-/*// Light LEDs 9 & 10 in cyan when keyboard layer 1 is active
-const rgblight_segment_t PROGMEM _QWERTY[] = RGBLIGHT_LAYER_SEGMENTS(
-    {9, 2, HSV_CYAN}
-// Now define the array of layers. Later layers take precedence
-const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_capslock_layer,
-    my_layer1_layer,    // Overrides caps lock layer
-    my_layer2_layer,    // Overrides other layers
-    my_layer3_layer     // Overrides other layers
-);
 
-void keyboard_post_init_user(void) {
-    // Enable the LED layers
-    rgblight_layers = my_rgb_layers;
-}*/
 
-//#ifdef ENCODER_MAP_ENABLE
-#ifdef ENCODER_ENABLE
+#ifdef ENCODER_MAP_ENABLE //------------------------------------------------------------------------------------------------------------------------------
+
 bool is_alt_tab_active = false; // ADD this near the begining of keymap.c
 bool is_alt_shift_tab_active = false; // ADD this near the begining of keymap.c
 uint16_t alt_tab_timer = 0;     // we will be using them soon.
@@ -167,9 +141,7 @@ void matrix_scan_user(void) { // The very important timer.
 
 // clang-format on
 
-/* layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-} */
+// custom tap dance code here ---------------------------------------------------------------------------------------------------------------------------
 
 // Determine the tapdance state to return
 td_state_t cur_dance(tap_dance_state_t *state) {
@@ -231,6 +203,8 @@ void altlp_reset(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
     [RAISE_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altlp_finished, altlp_reset)
 };
+
+//---------------------------------------------------------------------------------------------------------------------
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
