@@ -16,25 +16,15 @@ enum keycodes {
 };
 
 
-enum custom_keycodes {
-  BTDEV1 = SAFE_RANGE,
-  BTDEV2,
-  BTDEV3,
-  BTDEV4,
-  BTDEV5,
-  WIRELESS,
-  USBC,
-  IM_BATQ,
-  SOMETHING,
-  RL_MOD
- ,ALT_TAB
- ,ALT_SHIFT_TAB
+enum custom_keycodes{
+  ALT_TAB,
+  ALT_SHIFT_TAB
 };
-
 
 enum td_keycodes{
   RAISE_SHIFT
 };
+
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
@@ -99,7 +89,7 @@ KC_PRINT_SCREEN,  _______,     KC_7,     KC_8,     KC_9,  _______,  _______,    
         _______,     KC_1,     KC_2,     KC_3,  _______,  _______,  _______,    KC_F1,    KC_F2,    KC_F3,  _______,  _______,            KC_MS_U,  KC_MS_BTN2,
         _______,  _______,  _______,     KC_0,             KC_0,  KC_0,   KC_0,             _______,  _______,  S(KC_INS),  KC_MS_L,  KC_MS_D,  KC_MS_R
     ),
-  
+
 	[_RAISE] = LAYOUT( 
         EE_CLR,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_INS,  KC_MS_BTN1,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   
@@ -164,13 +154,13 @@ void altlp_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
-            layer_on(_RAISE);
+            set_oneshot_layer(_RAISE, ONESHOT_START);
             break;
         case TD_SINGLE_HOLD:
             layer_on(_RAISE); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP: // 
-            register_mods(MOD_BIT(KC_RSFT));
+            add_oneshot_mods(MOD_BIT(KC_RSFT));
             break;
         case TD_DOUBLE_HOLD: // 
             register_mods(MOD_BIT(KC_RSFT));
@@ -183,13 +173,13 @@ void altlp_finished(tap_dance_state_t *state, void *user_data) {
 void altlp_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
-            layer_off(_RAISE);
+            clear_oneshot_layer_state(ONESHOT_PRESSED);
             break;
         case TD_SINGLE_HOLD:
             layer_off(_RAISE); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP:
-            unregister_mods(MOD_BIT(KC_RSFT));
+            clear_oneshot_mods();
             break;
         case TD_DOUBLE_HOLD:
             unregister_mods(MOD_BIT(KC_RSFT));
@@ -223,15 +213,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
     
-	//tap backspace, hold is ctrl+bkspc
-	case BCKSPC:
+  //tap backspace, hold is ctrl+bkspc
+  case BCKSPC:
       if (!record->tap.count && record->event.pressed) {
           tap_code16(C(KC_BSPC)); // Intercept hold function to send CTRL-BKSPC
           return false;
       }
       return true;             // Return true for normal processing of tap keycode 
-	//handle copy and paste on a single key
-	case COPA:
+  //handle copy and paste on a single key
+  case COPA:
       if (record->tap.count && record->event.pressed) {
           tap_code16(C(KC_C)); // Intercept tap function to send Ctrl-C
       } else if (record->event.pressed) {
