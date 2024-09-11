@@ -158,8 +158,8 @@ void matrix_scan_user(void) { // The very important timer.
 
 
  const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-	[_COLEMAK] = {ENCODER_CCW_CW(S(ALT_TAB), ALT_TAB)},
-	[_QWERTY] = {ENCODER_CCW_CW(S(ALT_TAB), ALT_TAB)},
+	[_COLEMAK] = {ENCODER_CCW_CW(ALT_SHIFT_TAB, ALT_TAB)},
+	[_QWERTY] = {ENCODER_CCW_CW(ALT_SHIFT_TAB, ALT_TAB)},
     [_LOWER] = {ENCODER_CCW_CW(KC_DOWN, KC_UP)},
     [_RAISE] = {ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB))}
 }; 
