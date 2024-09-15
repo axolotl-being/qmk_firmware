@@ -11,18 +11,18 @@ enum layers {
 };
 
 enum keycodes {
-  COLEMAK = SAFE_RANGE,
+  COLEMAK = QK_USER_0, //use saferange if disabling via
   QWERTY
 };
 
 
 enum custom_keycodes{
-  ALT_TAB = SAFE_RANGE,
+  ALT_TAB ,
   ALT_SHIFT_TAB
 };
 
 enum td_keycodes{
-  RAISE_SHIFT = SAFE_RANGE
+  RAISE_SHIFT
 };
 
 
