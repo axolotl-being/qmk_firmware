@@ -1,7 +1,7 @@
 ENCODER_MAP_ENABLE = yes
 VIA_ENABLE = yes
 ENCODER_ENABLE = yes
-#LTO_ENABLE = yes
+LTO_ENABLE = yes
 
 
 #RGBLIGHT_ENABLE = yes
@@ -21,3 +21,6 @@ VIRTSER_ENABLE = no         # USB Serial Driver
 RAW_ENABLE = no             # Raw device
 AUTO_SHIFT_ENABLE = no      # Auto Shift
 TAP_DANCE_ENABLE = yes
+
+WIRELESS_ENABLE = yes
+RGB_MATRIX_ENABLE = yes
