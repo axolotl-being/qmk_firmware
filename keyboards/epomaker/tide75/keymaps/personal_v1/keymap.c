@@ -113,8 +113,13 @@ void matrix_scan_user(void) { // The very important timer.
   if (is_alt_tab_active) {
     if (timer_elapsed(alt_tab_timer) > 900) {
       unregister_code(KC_LALT);
-      unregister_code(KC_LSFT);
       is_alt_tab_active = false;
+    }
+}
+  if (is_alt_shift_tab_active) {
+    if (timer_elapsed(alt_tab_timer) > 900) {
+      unregister_code(KC_LALT);
+      unregister_code(KC_LSFT);
       is_alt_shift_tab_active = false;
     }
   }
