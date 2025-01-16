@@ -55,14 +55,15 @@ void altlp_reset(tap_dance_state_t *state, void *user_data);
 #define COPA LT(0,KC_NO)
 #define BCKSPC LT(0,KC_BSPC)
 #define RSLAYER TD(RAISE_SHIFT) //layer 3
+#define CTRLESC MT(MOD_LCTL, KC_ESC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_60_hhkb(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSLS, KC_GRV,
+        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSLS, KC_DEL,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_LBRC, KC_RBRC, BCKSPC,
-        KC_LCTL, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,          KC_ENT,
+        CTRLESC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,          KC_ENT,
         KC_Z,          KC_X,    KC_C,    KC_D,    KC_V,    LOWER,    KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, RSLAYER, LOWER,
-                          KC_LALT, OSM(MOD_LSFT),                   KC_SPC,                             KC_RGUI, COPA
+                          KC_LALT, OSM(MOD_LSFT),                   KC_SPC,                             , COPA,  KC_RGUI
     ),
 
     /*
@@ -146,9 +147,11 @@ void altlp_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_TAP: // 
             set_oneshot_mods(MOD_BIT(KC_RSFT));
+            //tap_code16(KC_CAPS_LOCK);
             break;
         case TD_DOUBLE_HOLD: //
-            register_mods(MOD_BIT(KC_RSFT));
+            //register_mods(MOD_BIT(KC_RSFT));
+            tap_code16(KC_CAPS_LOCK);
             break;
         default:
             break;
@@ -164,10 +167,12 @@ void altlp_reset(tap_dance_state_t *state, void *user_data) {
             layer_off(3); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP:
+          
             
             break;
         case TD_DOUBLE_HOLD:
-            unregister_mods(MOD_BIT(KC_RSFT));
+            //unregister_mods(MOD_BIT(KC_RSFT));
+          //unregister_code(KC_CAPS_LOCK);
             break;
         default:
             break;
